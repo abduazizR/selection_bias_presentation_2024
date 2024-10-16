@@ -1,0 +1,318 @@
+---
+title: "Chapter 8: Selection bias"
+author: Abdullah Abdelaziz, BPharm, MSc
+format:
+  revealjs:
+    embed-resources: true
+    footnotes-hover: true
+    slide-number: c/t
+bibliography: references.bib
+---
+
+## Important disclaimer
+
+<!--# The distinction between the two structures leading to lack of exchangeability is not universally made across disciplines. Conditional exchangeability is often referred as “weak ignorability” or “ignorable treatment assignment” in statistics (Rosenbaum and Rubin 1983, Rosenbaum 2002), “selection on observables” in the social sciences (Barnow, Cain, and Goldberger, 1980), and “no ommitted variable bias” or “exogeneity” in econometrics (Imbens, 2004). -->
+
+-   The term "Selection bias" can refer to different things depending on the discipline
+
+    -   Economists' selection bias (selection on observables) is actually epidemiologists' confounding bias.
+
+    -   Survey statisticians use selection bias term to sample selection from population, which can lead to biased conclusions in descriptive research.
+
+-   Epidemiologists excelled in conceptualizing and making the distinction between confounding and selection.
+
+-   It's a good habit to make sure that your collaborators are on the same page regarding terminologies to avoid any confusions.
+
+# General guidelines
+
+## General guidelines
+
+-   Causal effects are linked to specific **populations**
+-   In many epidemiologic studies, you end up analyzing a cohort that's different from your original cohort
+    -   Survival analysis: we analyze uncensored individuals (we don't see the outcome in censored individuals).
+    -   Case-control studies: we analyze individuals who got the outcome and a sample of patients who did not the outcome.
+
+## General guidelines
+
+-   The hope is that the estimate we get in this subset is the same as the one we would've had if we did the estimation on the original cohort.
+-   If this is not the case ➔ Selection bias
+-   In all the coming DAGs, selection is represented as a variable with a square around it.
+-   The square here does not mean statistical adjustment. It means that the analysis is done on one stratum of the selection variable.
+    -   DAGs are not just useful in helping identifying adjustment covariates. They can help in the design as well.
+
+# Types of selection bias
+
+## Selection bias under the null
+
+-   This type of selection bias can arise regardless of the true treatment effect being null or not.
+-   Conditioning on a collider (or a descendant of a collider) is necessary for this bias to happen.
+-   This is the topic of this book and Hernan's famous paper in 2004 [@hernán2004]
+
+## Selection bias off the null
+
+::::: columns
+::: column
+-   This type of selection bias **cannot** happen under the null.
+
+-   This type of selection bias **can** happen even without conditioning on colliders.
+:::
+
+::: column
+![](images/paste-1.png){fig-align="center"}
+:::
+:::::
+
+-   This bias is not covered in the chapter.
+
+# Selection bias in cross-sectional studies
+
+## Example 1
+
+![](images/paste-3.png){fig-align="center" width="403"}
+
+-   $A$ : Treatment
+
+-   $Y$ : Fetal malformation
+
+-   $C$ : Live birth
+
+    We don't have $Y$ for dead fetuses, so we essentially **restricting our analysis to** living fetuses.
+
+## Example 1
+
+-   Our regression will give us this quantity
+
+$$ \frac{Pr[Y = 1|A = 1, C = 0]}{ Pr[Y = 1|A = 0, C = 0]} $$
+
+-   Is this a valid estimate for our estimand?
+
+    $$\frac{Pr[Y^{ a=1} = 1]}{Pr[Y^{ a=0} = 1]} $$
+
+    The answer is no, because we have association transmitted through the path $A \rightarrow C \leftarrow Y$
+
+## Example 2
+
+![](images/paste-4.png)
+
+-   $A$ : Treatment
+
+-   $Y$ : Fetal malformation
+
+-   $C$ : Live birth
+
+-   $S$: Parental grief
+
+A descendant of a collider is as dangerous as the collider itself.
+
+<!--# The causal diagram in Figure 8.2 shows another example of selection bias. This diagram includes all variables in Figure 8.1 plus a node S representing parental grief (1: yes, 0: no), which is affected by vital status at birth. Suppose the study was restricted to non grieving parents S = 0 because the others were unwilling to participate. -->
+
+# Selection bias in cohort studies
+
+Including randomized trials
+
+## Example
+
+![](images/paste-5.png){fig-align="center"}
+
+::: {style="font-size: 70%;"}
+-   $A$ : Antiretroviral treatment
+
+-   $Y$: Death
+
+-   $L$: Disease severity
+
+-   $U$: High level of immunosuppression
+
+-   $C$: Loss to follow-up
+:::
+
+<!--# Some intuition for this bias: If a treated individual with treatment-induced side effects (and thereby at a greater risk of dropping out) did in fact not drop out (C = 0), then it is generally less likely that a second independent cause of dropping out (e.g., U = 1) was present. -->
+
+## Example
+
+-   Remember, $C$ is not a variable we put in a regression model. It's a part of how your **analyzed data was formed**.
+
+-   In this example, $A$ can show favorable result not because it's actually effective in reducing mortality, but because it caused sick people to leave the study. Although in reality, $A$ and $Y$ are not associated.
+
+-   The previous DAG is an example of selection bias due to **differential loss-to-follow-up** or **informative censoring.**
+
+## Similar DAGs for differential loss-to-follow-up
+
+:::::: columns
+::: {.column width="33%"}
+![](images/paste-6.png)
+:::
+
+::: {.column width="33%"}
+![](images/paste-7.png)
+:::
+
+::: {.column width="33%"}
+![](images/paste-8.png)
+:::
+::::::
+
+-   These DAGs are modified versions of Figure 8.3
+
+    -   For instance, in figure 8.4, the association between $A$ and $L$ is represented by mediation while in figure 8.5 presented by a backdoor path $A \leftarrow W \rightarrow C$ and presented by both in figure 8.6
+
+## The structural definition of selection bias
+
+> **Selection bias** to refer to all biases that arise from conditioning on a common effect of two variables, one of which is either the treatment or a cause of treatment, and the other is either the outcome or a cause of the outcome.
+
+**Selection bias,** similar to confounding bias, is a violation of the exchangeability assumption.
+
+## Common examples of selection bias
+
+-   Differential loss to follow-up or informative censoring.
+
+-   Missing data bias, or non-response bias.
+
+-   Healthy worker bias.
+
+-   Self-selection bias or volunteer bias.
+
+-   Selection affected by treatment received before study entry aka **prevalent-user bias**
+
+-   Immortal-time bias is a mix of selection and misclassification bias.
+
+## Which designs are prone to selection bias?
+
+-   All of them, even randomized experiments.
+
+-   Randomization fixes confounding but not selection.
+
+-   Selection bias is more likely to occur with designs that are built on selection by default i.e. case-control design
+
+    -   Friendly advice, whenever you have the full cohort, please don't conduct a case-control study.
+
+## Which analyses are prone to selection bias?
+
+-   Conventional covariate adjustment in treatment-confounder feedback setting.
+
+-   Cox regression.
+
+## Selection without bias
+
+-   RCTs are conducted among volunteers willing to enter the experiment. So those volunteers select into the trial.
+
+-   However, this is not what we mean here by selection bias.
+
+-   Based on our definition, the selection variable should be a **common effect** of the treatment or a cause of the treatment and the outcome or cause of the outcome.
+
+-   Since volunteering participation happened **before** treatment assignment, there is no bias.
+
+-   The self-selection bias we mentioned earlier is about agreeing to continue in the trial after being treated.
+
+# The distinction between confounding and selection bias
+
+## Example
+
+:::::: columns
+:::: {.column width="40%"}
+::: {style="font-size: 70%;"}
+-   $A$: Physical activity.
+
+-   $Y$: Heart disease
+
+-   $C$ : Being a firefighter
+
+-   $L$: Parental socieconomic status
+
+-   $U$: Attraction towards physical activity
+:::
+::::
+
+::: {.column width="60%"}
+![](images/paste-9.png){fig-align="center"}
+:::
+::::::
+
+<!--# Notice here that we don't have confounding but we have selection when we restrict the analysis to firefighters C=0. However, the conclusion is the same for adjustment. Adjustment for L should fix it. -->
+
+## Advantages of using the structural approach
+
+::: panel-tabset
+## 1
+
+It can guide the choice of the analytic method
+
+![](images/paste-10.png){fig-align="center"}
+
+## 2
+
+It can help is study design and data collection. ![](images/paste-9.png){fig-align="center"}
+
+## 3
+
+Selection bias resulting from conditioning on pre-treatment variables (e.g., being a firefighter) could explain why certain variables behave as “confounders” in some studies but not others.
+
+## 4
+
+Causal diagrams enhance communication among investigators and may decrease the occurrence of misunderstandings.
+:::
+
+## Important reminder
+
+-   DAGs ignore the magnitude or direction of selection bias and confounding.
+-   It is possible that some noncausal paths opened by conditioning on a collider are weak and thus induce little bias.
+-   It is not an “all or nothing” issue, in practice, it is important to consider the expected direction and magnitude of the bias
+
+## Selection bias in hazard ratios {.scrollable}
+
+:::::: columns
+:::: {.column width="40%"}
+::: {style="font-size: 70%;"}
+-   $A$: Treatment (protective)
+
+-   $Y_1 \ \text{and}\ Y_2$: Death at time 1 and time 2.
+
+-   $U$: Protective Haplotype
+:::
+::::
+
+::: {.column width="60%"}
+![](images/paste-11.png){fig-align="center"}
+:::
+::::::
+
+### Measures of effects
+
+#### Risk ratio
+
+$$
+aRR_{AY_1} = \frac{Pr[Y_1=1|A=1]}{  Pr[Y_1=1|A=0]}
+$$
+
+$$
+aRR_{AY_2} = \frac{Pr[Y_2=1|A=1]}{  Pr[Y_2=1|A=0]}
+$$
+
+<!--# These are unbiased because they don't condition on survival at time point 1, and both of them will have values less than 1 -->
+
+#### Hazard ratio
+
+$$
+HR_{AY_1} = aRR_{AY_1} = \frac{Pr[Y_1=1|A=1]}{  Pr[Y_1=1|A=0]}
+$$
+
+$$
+HR_{AY_2} = aRR_{AY_2|Y_1=0} = \frac{Pr[Y_2=1|A=1,Y_1=0]}{  Pr[Y_2=1|A=0, Y_1 = 0]}
+$$
+
+<!--# There is no problem with hazard ratio in the first time point -->
+
+##
+
+In conclusion, we have two issues:
+
+-   The estimand changed.
+
+-   Selection bias
+
+# Selection bias and censoring
+
+## References
+
+::: {#refs}
+:::
