@@ -6,6 +6,7 @@ format:
     embed-resources: true
     footnotes-hover: true
     slide-number: c/t
+    incremental: true
 bibliography: references.bib
 ---
 
@@ -21,7 +22,7 @@ bibliography: references.bib
 
 -   Epidemiologists excelled in conceptualizing and making the distinction between confounding and selection.
 
--   It's a good habit to make sure that your collaborators are on the same page regarding terminologies to avoid any confusions.
+-   It's a good habit to make sure that your collaborators are on the same page regarding terminology to avoid confusions.
 
 # General guidelines
 
@@ -30,7 +31,7 @@ bibliography: references.bib
 -   Causal effects are linked to specific **populations**
 -   In many epidemiologic studies, you end up analyzing a cohort that's different from your original cohort
     -   Survival analysis: we analyze uncensored individuals (we don't see the outcome in censored individuals).
-    -   Case-control studies: we analyze individuals who got the outcome and a sample of patients who did not the outcome.
+    -   Case-control studies: we analyze individuals who got the outcome and a sample of patients who did not get the outcome.
 
 ## General guidelines
 
@@ -155,6 +156,26 @@ Including randomized trials
 -   These DAGs are modified versions of Figure 8.3
 
     -   For instance, in figure 8.4, the association between $A$ and $L$ is represented by mediation while in figure 8.5 presented by a backdoor path $A \leftarrow W \rightarrow C$ and presented by both in figure 8.6
+
+# Selection bias in case-control studies
+
+## DAG
+
+![](images/paste-13.png){fig-align="center"}
+
+-   $E$: Estrogen use
+
+-   $D$: CHD
+
+-   $F$: Hip fracture
+
+-   $C$: Selection into the study
+
+<!--# A heuristic explanation of this bias follows. Among individuals selected for the study (C = 0), controls are more likely than cases to have had a hip fracture. Therefore, because estrogens lower the incidence of hip fractures, a control is less likely to be on estrogens than a case, and hence the A-Y odds ratio conditional on C = 0 would be greater than the causal odds ratio in the population. -->
+
+## Matched case-control designs are inherently biased
+
+![](images/paste-14.png)
 
 ## The structural definition of selection bias
 
@@ -310,7 +331,17 @@ In conclusion, we have two issues:
 
 -   Selection bias
 
-# Selection bias and censoring
+# Avoiding selection bias
+
+## New estimand
+
+-   Similar to the interaction chapter, we will view selection or censoring as an intervention. If we are able to satisfiy the causal identification assumption with $c$, then this estimand can be estimated using observed data
+
+$$\frac{Pr[Y^{ a=1,c=0} = 1]}{Pr[Y^{ a=0,c=0} = 1]} $$
+
+-   This reads as the effect of $A$ on $Y$ had everyone got $A$ and remained uncensored vs everyone not getting $A$ and remained uncensored.
+
+-   Weighting can be a good approach to achieve this (See example).
 
 ## References
 

@@ -289,7 +289,7 @@
 
 - Epidemiologists excelled in conceptualizing and making the distinction between confounding and selection.
 
-- It’s a good habit to make sure that your collaborators are on the same page regarding terminologies to avoid any confusions.
+- It’s a good habit to make sure that your collaborators are on the same page regarding terminology to avoid confusions.
 
 = General guidelines
 <general-guidelines>
@@ -298,7 +298,7 @@
 - Causal effects are linked to specific #strong[populations]
 - In many epidemiologic studies, you end up analyzing a cohort that’s different from your original cohort
   - Survival analysis: we analyze uncensored individuals (we don’t see the outcome in censored individuals).
-  - Case-control studies: we analyze individuals who got the outcome and a sample of patients who did not the outcome.
+  - Case-control studies: we analyze individuals who got the outcome and a sample of patients who did not get the outcome.
 
 == General guidelines
 <general-guidelines-2>
@@ -423,6 +423,25 @@ Including randomized trials
 
   - For instance, in figure 8.4, the association between $A$ and $L$ is represented by mediation while in figure 8.5 presented by a backdoor path $A arrow.l W arrow.r C$ and presented by both in figure 8.6
 
+= Selection bias in case-control studies
+<selection-bias-in-case-control-studies>
+== DAG
+<dag>
+#align(center)[
+#box(image("images/paste-13.png"))
+]
+- $E$: Estrogen use
+
+- $D$: CHD
+
+- $F$: Hip fracture
+
+- $C$: Selection into the study
+
+== Matched case-control designs are inherently biased
+<matched-case-control-designs-are-inherently-biased>
+#box(image("images/paste-14.png"))
+
 == The structural definition of selection bias
 <the-structural-definition-of-selection-bias>
 #quote(block: true)[
@@ -521,10 +540,59 @@ Causal diagrams enhance communication among investigators and may decrease the o
 - It is possible that some noncausal paths opened by conditioning on a collider are weak and thus induce little bias.
 - It is not an "all or nothing" issue, in practice, it is important to consider the expected direction and magnitude of the bias
 
-= Selection bias in hazard ratios
+== Selection bias in hazard ratios
 <selection-bias-in-hazard-ratios>
-= Selection bias and censoring
-<selection-bias-and-censoring>
+#block[
+#block[
+#block[
+#set text(size: 0.7em); - $A$: Treatment (protective)
+
+- $Y_1 med upright("and") med Y_2$: Death at time 1 and time 2.
+
+- $U$: Protective Haplotype
+
+]
+]
+#block[
+#align(center)[
+#box(image("images/paste-11.png"))
+]
+]
+]
+=== Measures of effects
+<measures-of-effects>
+==== Risk ratio
+<risk-ratio>
+$ a R R_(A Y_1) = frac(P r [Y_1 = 1 \| A = 1], P r [Y_1 = 1 \| A = 0]) $
+
+$ a R R_(A Y_2) = frac(P r [Y_2 = 1 \| A = 1], P r [Y_2 = 1 \| A = 0]) $
+
+==== Hazard ratio
+<hazard-ratio>
+$ H R_(A Y_1) = a R R_(A Y_1) = frac(P r [Y_1 = 1 \| A = 1], P r [Y_1 = 1 \| A = 0]) $
+
+$ H R_(A Y_2) = a R R_(A Y_2 \| Y_1 = 0) = frac(P r [Y_2 = 1 \| A = 1 , Y_1 = 0], P r [Y_2 = 1 \| A = 0 , Y_1 = 0]) $
+
+== 
+<section-4>
+In conclusion, we have two issues:
+
+- The estimand changed.
+
+- Selection bias
+
+= Avoiding selection bias
+<avoiding-selection-bias>
+== New estimand
+<new-estimand>
+- Similar to the interaction chapter, we will view selection or censoring as an intervention. If we are able to satisfiy the causal identification assumption with $c$, then this estimand can be estimated using observed data
+
+$ frac(P r [Y^(a = 1 , c = 0) = 1], P r [Y^(a = 0 , c = 0) = 1]) $
+
+- This reads as the effect of $A$ on $Y$ had everyone got $A$ and remained uncensored vs everyone not getting $A$ and remained uncensored.
+
+- Weighting can be a good approach to achieve this (See example).
+
 == References
 <references>
 #block[
